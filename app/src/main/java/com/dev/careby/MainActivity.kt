@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.dev.careby.navigation.MainNavHost
+import com.dev.careby.screens.MainScreen
 import com.dev.careby.ui.theme.CarebyTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,9 +20,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CarebyTheme {
-                val navController = rememberNavController()
-                MainNavHost(navController = navController)
-
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    MainScreen()
+                }
             }
         }
     }
