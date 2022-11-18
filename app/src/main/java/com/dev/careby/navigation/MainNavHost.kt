@@ -11,7 +11,7 @@ import com.dev.careby.screens.WaterScreen
 import com.dev.careby.utils.Constants
 
 
-sealed class Screans(val route: String){
+sealed class Screans(val route: String) {
     object WaterS : Screans(route = Constants.Screens.WATER_BALANCE_SCREEN)
     object FoodS : Screans(route = Constants.Screens.FOOD_BALANCE_SCREEN)
     object QuotesS : Screans(route = Constants.Screens.QUOTES_SCREEN)
