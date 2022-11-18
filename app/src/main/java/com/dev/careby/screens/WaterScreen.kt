@@ -48,9 +48,7 @@ ConstraintLayout() {
     }
 
 
-    val (
-        progressBar,
-    Addbtn
+    val (progressBar, Addbtn
     ) = createRefs()
 
         Box(modifier = Modifier.constrainAs(progressBar){
