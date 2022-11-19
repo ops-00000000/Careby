@@ -1,13 +1,11 @@
 package com.dev.careby.screens
 
+import android.app.Application
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -22,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,19 +28,40 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.dev.careby.data.WaterScreenData
+import com.dev.careby.dataBase.AppDb
+import com.dev.careby.repositories.WaterScreenRepoImpl
+
 
 
 @Composable
 fun WaterScreen() {
 
-    ConstraintLayout() {
+     val rep = WaterScreenRepoImpl(
+        AppDb.getInstance(context = LocalContext.current).WaterDao()
+    )
+    val dto  = WaterScreenData(1L,0,2000)
+
+    if (rep.getData(dto.id) == null){
+        rep.save(dto)
+    }
+
+    val data = rep.getData(dto.id)
+    println(data)
+    var indicate = data.curIndicate
+    var maxIndicate1 = data.maxIndicate
+
+
+
+
+    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
         var value by remember {
-            mutableStateOf(0)
+            mutableStateOf(indicate)
         }
 
         var maxIndicate by remember {
-            mutableStateOf(2000)
+            mutableStateOf(maxIndicate1)
         }
 
 
@@ -56,7 +76,8 @@ fun WaterScreen() {
             CustomComponent(indicatorValue = value, maxIndicatorValue = maxIndicate)
         }
         Button(
-            onClick = { value += 300 },
+            onClick = { value += 300 ; indicate += 300;
+                      rep.updateCurIndicate(1,indicate)},
             modifier = Modifier.constrainAs(Addbtn) {
                 start.linkTo(parent.start, margin = 50.dp)
                 end.linkTo(parent.end, margin = 50.dp)
