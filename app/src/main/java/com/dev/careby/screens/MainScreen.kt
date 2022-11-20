@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalProvider
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,11 +27,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.dev.careby.navigation.MainNavHost
 import com.dev.careby.ui.BottomBarObjects
+import com.dev.careby.ui.theme.Primary
+import com.dev.careby.ui.theme.SecondPrimary
 
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     Scaffold(
+
         bottomBar = {
             BottomBar(navController = navController)
         },
@@ -59,9 +63,9 @@ fun BottomBar(navController: NavHostController) {
         ) = createRefs()
 
         Row(
-            modifier = Modifier
-                .padding(start = 10.dp, end = 10.dp, top = 8.dp, bottom = 8.dp)
-                .background(Color.White)
+            modifier = Modifier.size(400.dp, 60.dp)
+                .padding(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 0.dp)
+                .background(Primary)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
@@ -87,7 +91,7 @@ fun RowScope.AddItem(
     val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
 
     val background =
-        if (selected) Color.Blue.copy(alpha = 0.6f) else Color.Transparent
+        if (selected) SecondPrimary.copy(alpha = 0.6f) else Color.Transparent
 
     val contentColor =
         if (selected) Color.White else Color.Black

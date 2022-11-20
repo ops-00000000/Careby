@@ -7,9 +7,7 @@ import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +29,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.dev.careby.data.WaterScreenData
 import com.dev.careby.dataBase.AppDb
 import com.dev.careby.repositories.WaterScreenRepoImpl
-
+import com.dev.careby.ui.theme.Primary
 
 
 @Composable
@@ -78,13 +76,15 @@ fun WaterScreen() {
         Button(
             onClick = { value += 300 ; indicate += 300;
                       rep.updateCurIndicate(1,indicate)},
-            modifier = Modifier.constrainAs(Addbtn) {
+            modifier = Modifier
+            .constrainAs(Addbtn) {
                 start.linkTo(parent.start, margin = 50.dp)
                 end.linkTo(parent.end, margin = 50.dp)
                 top.linkTo(progressBar.bottom, margin = 8.dp)
                 bottom.linkTo(parent.bottom, margin = 120.dp)
             },
             shape = CircleShape,
+            colors = ButtonDefaults.buttonColors(backgroundColor = Primary)
         ) {
             Text(text = "Add 300ml")
         }
