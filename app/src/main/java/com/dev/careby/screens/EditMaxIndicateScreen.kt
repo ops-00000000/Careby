@@ -1,5 +1,6 @@
 package com.dev.careby.screens
 
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -39,18 +40,19 @@ fun EditMaxIndicateScreen(navController: NavController) {
             .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
-        ConstraintLayout() {
+        ConstraintLayout {
             val (text, edittext, btn) = createRefs()
             Text(
                 text = "Кажется вы не установили свой лимит воды!?",
                 fontSize = MaterialTheme.typography.h5.fontSize,
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier
+                    .padding(12.dp)
                     .constrainAs(text) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(edittext.top, margin = 12.dp)
-                    end.linkTo(parent.end)
-                    start.linkTo(parent.start)
-                }
+                        top.linkTo(parent.top)
+                        bottom.linkTo(edittext.top, margin = 12.dp)
+                        end.linkTo(parent.end)
+                        start.linkTo(parent.start)
+                    }
             )
             var textV by remember {
                 mutableStateOf(TextFieldValue(""))
@@ -72,25 +74,30 @@ fun EditMaxIndicateScreen(navController: NavController) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
             )
 
-            Button(onClick = {
+            Button(onClick =  {
                 val dto = WaterScreenData(1L, 0, textV.text.toInt())
                 rep.save(dto)
-                navController.navigate(Screans.WaterS.route)
+                navController.navigate(Screans.MainS.route)
+
+
             },
                 shape = CircleShape,
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier
+                    .padding(12.dp)
                     .constrainAs(btn) {
-                    end.linkTo(parent.end)
-                    start.linkTo(parent.start)
-                    top.linkTo(edittext.bottom, margin = 12.dp)
-                    bottom.linkTo(parent.bottom)
-                }) {
+                        end.linkTo(parent.end)
+                        start.linkTo(parent.start)
+                        top.linkTo(edittext.bottom, margin = 12.dp)
+                        bottom.linkTo(parent.bottom)
+                    }) {
                 Text(text = "Add")
             }
         }
 
     }
 }
+
+
 
 @Composable
 @Preview

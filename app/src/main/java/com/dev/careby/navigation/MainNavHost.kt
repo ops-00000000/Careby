@@ -14,6 +14,7 @@ sealed class Screans(val route: String) {
     object DreamS : Screans(route = Constants.Screens.DREAM_SCREEN)
     object FoodS : Screans(route = Constants.Screens.FOOD_BALANCE_SCREEN)
     object EditMaxS : Screans(route = Constants.Screens.EDIT_MAX_INDICATE_SCREEN)
+    object MainS : Screans(route = Constants.Screens.MAIN_SCREEN)
 }
 
 @Composable
@@ -41,6 +42,9 @@ fun MainNavHost(
             EditMaxIndicateScreen(
                 navController
             )
+        }
+        composable(Screans.MainS.route){
+            MainScreen()
         }
     }
 }

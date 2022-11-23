@@ -38,25 +38,24 @@ import com.dev.careby.ui.theme.SecondPrimary
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-    Scaffold(
+    val rep = WaterScreenRepoImpl(
+        AppDb.getInstance(context = LocalContext.current).WaterDao()
+    )
+    val dto = WaterScreenData(1L, 0, 2000)
 
-        bottomBar = {
-            BottomBar(navController = navController)
-        },
-    ) {
-        val rep = WaterScreenRepoImpl(
-            AppDb.getInstance(context = LocalContext.current).WaterDao()
-        )
-        val dto  = WaterScreenData(1L,0,2000)
+    if (rep.getData(dto.id) == null) {
+        MainNavHost(navController = navController, Screans.EditMaxS.route)
+    } else {
+        Scaffold(
+            bottomBar = {
+                BottomBar(navController = navController)
+            },
+        ) {
 
-        if (rep.getData(dto.id) == null){
-            MainNavHost(navController = navController, Screans.EditMaxS.route)
-        }
-        else{
             MainNavHost(navController = navController, Screans.WaterS.route)
+
         }
     }
-
 
 }
 
@@ -78,7 +77,11 @@ fun BottomBar(navController: NavHostController) {
         ) = createRefs()
 
         Row(
-            modifier = Modifier.size(400.dp, 60.dp)
+            modifier = Modifier
+                .constrainAs(bottombar) {
+                    end.linkTo(parent.end)
+                    start.linkTo(parent.start)
+                }
                 .padding(start = 0.dp, end = 0.dp, top = 0.dp, bottom = 0.dp)
                 .background(Primary)
                 .fillMaxWidth(),

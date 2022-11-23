@@ -7,5 +7,6 @@ object Constants {
         const val DREAM_SCREEN = "dream_screen"
         const val FOOD_BALANCE_SCREEN = "food_screen"
         const val EDIT_MAX_INDICATE_SCREEN = "editMax_screen"
+        const val MAIN_SCREEN = "main_screen"
     }
 }
