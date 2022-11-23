@@ -20,13 +20,6 @@ sealed class BottomBarObjects(
 
     )
 
-    object FoodS : BottomBarObjects(
-        route = Constants.Screens.FOOD_BALANCE_SCREEN,
-        title = "Food",
-        icon = R.drawable.ic_outline_fastfood_24,
-        icon_focused = R.drawable.ic_baseline_fastfood_24
-    )
-
     object QuotesS : BottomBarObjects(
         route = Constants.Screens.QUOTES_SCREEN,
         title = "Quotes",
@@ -39,5 +32,12 @@ sealed class BottomBarObjects(
         title = "Dream",
         icon = R.drawable.ic_outline_bedtime_24,
         icon_focused = R.drawable.ic_baseline_bedtime_24
+    )
+
+    object FoodS : BottomBarObjects(
+        route = Constants.Screens.FOOD_BALANCE_SCREEN,
+        title = "Food",
+        icon = R.drawable.ic_outline_fastfood_24,
+        icon_focused = R.drawable.ic_baseline_fastfood_24
     )
 }

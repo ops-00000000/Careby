@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.modifier.modifierLocalProvider
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,7 +26,11 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.dev.careby.data.WaterScreenData
+import com.dev.careby.dataBase.AppDb
 import com.dev.careby.navigation.MainNavHost
+import com.dev.careby.navigation.Screans
+import com.dev.careby.repositories.WaterScreenRepoImpl
 import com.dev.careby.ui.BottomBarObjects
 import com.dev.careby.ui.theme.Primary
 import com.dev.careby.ui.theme.SecondPrimary
@@ -39,7 +44,17 @@ fun MainScreen() {
             BottomBar(navController = navController)
         },
     ) {
-        MainNavHost(navController = navController)
+        val rep = WaterScreenRepoImpl(
+            AppDb.getInstance(context = LocalContext.current).WaterDao()
+        )
+        val dto  = WaterScreenData(1L,0,2000)
+
+        if (rep.getData(dto.id) == null){
+            MainNavHost(navController = navController, Screans.EditMaxS.route)
+        }
+        else{
+            MainNavHost(navController = navController, Screans.WaterS.route)
+        }
     }
 
 
@@ -50,9 +65,9 @@ fun MainScreen() {
 fun BottomBar(navController: NavHostController) {
     val screens = listOf(
         BottomBarObjects.WaterS,
-        BottomBarObjects.FoodS,
         BottomBarObjects.QuotesS,
-        BottomBarObjects.DreamS
+        BottomBarObjects.DreamS,
+        BottomBarObjects.FoodS,
     )
     val navStackBackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navStackBackEntry?.destination

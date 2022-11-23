@@ -35,17 +35,17 @@ import com.dev.careby.ui.theme.Primary
 @Composable
 fun WaterScreen() {
 
+
+
+    // https://www.youtube.com/watch?v=gQ8_Lo45Q6c
+
+
+
      val rep = WaterScreenRepoImpl(
         AppDb.getInstance(context = LocalContext.current).WaterDao()
     )
-    val dto  = WaterScreenData(1L,0,2000)
 
-    if (rep.getData(dto.id) == null){
-        rep.save(dto)
-    }
-
-    val data = rep.getData(dto.id)
-    println(data)
+ val data = rep.getData(1L)
     var indicate = data.curIndicate
     var maxIndicate1 = data.maxIndicate
 
