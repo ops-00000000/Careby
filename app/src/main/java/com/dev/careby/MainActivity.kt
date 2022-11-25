@@ -14,6 +14,8 @@ import androidx.navigation.compose.rememberNavController
 import com.dev.careby.navigation.MainNavHost
 import com.dev.careby.screens.MainScreen
 import com.dev.careby.ui.theme.CarebyTheme
+import java.time.LocalDate
+import java.time.LocalTime
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +26,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    println(LocalTime.now())
                     MainScreen()
                 }
             }

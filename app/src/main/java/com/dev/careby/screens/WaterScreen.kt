@@ -5,8 +5,6 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -35,13 +33,14 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.dev.careby.R
-import com.dev.careby.data.WaterScreenData
 import com.dev.careby.dataBase.AppDb
+import com.dev.careby.repositories.DateRepoImpl
 import com.dev.careby.repositories.WaterScreenRepoImpl
 import com.dev.careby.ui.theme.Primary
 import com.dev.careby.ui.theme.SecondPrimary
+import java.time.LocalDate
 
- var dioValue = 0
+var dioValue = 0
 
 @Composable
 fun WaterScreen() {
@@ -53,11 +52,20 @@ fun WaterScreen() {
     val rep = WaterScreenRepoImpl(
         AppDb.getInstance(context = LocalContext.current).WaterDao()
     )
+    val repD = DateRepoImpl(
+        AppDb.getInstance(context = LocalContext.current).DateDao()
+    )
+
+    val date = repD.getDate(1L)
+
+    if (date.localDate != LocalDate.now().toString()){
+rep.updateCurIndicate(1L,0)
+        repD.updateDate(1L,LocalDate.now().toString())
+    }
 
     val data = rep.getData(1L)
     var indicate = data.curIndicate
     var maxIndicate1 = data.maxIndicate
-
 
 
 

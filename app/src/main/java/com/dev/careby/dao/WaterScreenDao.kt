@@ -25,9 +25,4 @@ interface WaterScreenDao {
 
     fun save(data: WaterScreenEntity) =
         insert(data)
-
-
-
-
-
 }

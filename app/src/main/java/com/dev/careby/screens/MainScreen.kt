@@ -1,5 +1,6 @@
 package com.dev.careby.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,22 +27,34 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.dev.careby.data.DateD
 import com.dev.careby.data.WaterScreenData
 import com.dev.careby.dataBase.AppDb
 import com.dev.careby.navigation.MainNavHost
 import com.dev.careby.navigation.Screans
+import com.dev.careby.repositories.DateRepoImpl
 import com.dev.careby.repositories.WaterScreenRepoImpl
 import com.dev.careby.ui.BottomBarObjects
 import com.dev.careby.ui.theme.Primary
 import com.dev.careby.ui.theme.SecondPrimary
+import java.time.LocalDate
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     val rep = WaterScreenRepoImpl(
         AppDb.getInstance(context = LocalContext.current).WaterDao()
     )
+    val repD = DateRepoImpl(
+        AppDb.getInstance(context = LocalContext.current).DateDao()
+    )
     val dto = WaterScreenData(1L, 0, 2000)
+
+    if (repD.getDate(1) == null){
+        val date = DateD(1L, LocalDate.now().toString())
+        repD.saveDate(date)
+    }
 
     if (rep.getData(dto.id) == null) {
         MainNavHost(navController = navController, Screans.EditMaxS.route)
@@ -51,13 +64,12 @@ fun MainScreen() {
                 BottomBar(navController = navController)
             },
         ) {
-
-            MainNavHost(navController = navController, Screans.WaterS.route)
-
+            MainNavHost(navController = navController, startDestination = Screans.WaterS.route)
         }
     }
 
 }
+
 
 
 @Composable
