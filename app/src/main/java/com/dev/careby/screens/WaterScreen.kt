@@ -363,6 +363,8 @@ fun addDialog(onDismiss: () -> Unit){
                 TextButton(
                     onClick = {
                         pickerValue = "0"
+                        value = 0
+                        dioValue = 0
                         onDismiss()
                     }) {
                     Text(
