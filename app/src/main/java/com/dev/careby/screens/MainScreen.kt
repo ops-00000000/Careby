@@ -77,7 +77,7 @@ fun BottomBar(navController: NavHostController) {
         ) = createRefs()
 
         Row(
-            modifier = Modifier
+            modifier = Modifier.height(56.dp)
                 .constrainAs(bottombar) {
                     end.linkTo(parent.end)
                     start.linkTo(parent.start)

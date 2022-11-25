@@ -5,10 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,6 +24,8 @@ import com.dev.careby.dataBase.AppDb
 import com.dev.careby.navigation.MainNavHost
 import com.dev.careby.navigation.Screans
 import com.dev.careby.repositories.WaterScreenRepoImpl
+import com.dev.careby.ui.theme.Primary
+import com.dev.careby.ui.theme.SecondPrimary
 
 
 @Composable
@@ -71,7 +70,8 @@ fun EditMaxIndicateScreen(navController: NavController) {
                         top.linkTo(text.bottom, margin = 12.dp)
                         bottom.linkTo(btn.top, margin = 12.dp)
                     },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                colors = TextFieldDefaults.textFieldColors(SecondPrimary)
             )
 
             Button(onClick =  {
