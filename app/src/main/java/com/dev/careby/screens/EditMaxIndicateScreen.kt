@@ -60,7 +60,7 @@ fun EditMaxIndicateScreen(navController: NavController) {
             OutlinedTextField(
                 value = textV,
                 onValueChange = { newValue -> textV = newValue },
-                label = { Text(text = "Enter Max Indicate") },
+                label = { Text(text = "Длбавьте максимальное значение в ML") },
                 modifier = Modifier
                     .padding(12.dp)
                     .fillMaxWidth()
@@ -89,8 +89,9 @@ fun EditMaxIndicateScreen(navController: NavController) {
                         start.linkTo(parent.start)
                         top.linkTo(edittext.bottom, margin = 12.dp)
                         bottom.linkTo(parent.bottom)
-                    }) {
-                Text(text = "Add")
+                    },
+            colors = ButtonDefaults.buttonColors(Primary)) {
+                Text(text = "Добавить")
             }
         }
 
