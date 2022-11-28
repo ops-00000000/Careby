@@ -53,7 +53,7 @@ fun QuotesScreen() {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "quotes_scree",
+                text = "quotes",
                 fontSize = MaterialTheme.typography.h3.fontSize,
                 fontWeight = FontWeight.Bold,
                 color = Color.Blue
