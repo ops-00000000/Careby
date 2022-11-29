@@ -1,10 +1,9 @@
 package com.dev.careby.screens
 
 import android.widget.Toast
+import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.animateIntAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -149,18 +148,36 @@ fun CustomComponent(
     smallTextFontSize: TextUnit = MaterialTheme.typography.h6.fontSize,
     smallTextColor: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.3f)
 ) {
-    val color by animateColorAsState(targetValue = Color.Red, tween(1000))
+    var isColorRed by remember {
+        mutableStateOf(false)
+    }
 
-    var foregroundIndicatorColor: Color = Color.Blue
+
+
+
+
     var allowedIndicatorValue by remember {
         mutableStateOf(maxIndicatorValue)
     }
      if (indicatorValue <= maxIndicatorValue) {
          allowedIndicatorValue = indicatorValue
+         isColorRed = false
     } else {
          allowedIndicatorValue = maxIndicatorValue
-        foregroundIndicatorColor = color
+        isColorRed = true
     }
+
+    val transition = updateTransition(targetState = isColorRed, label = null )
+
+
+    val color by transition.animateColor(
+        transitionSpec = { tween(durationMillis = 2000) },
+        label = "color",
+        targetValueByState = { isColorRed ->
+            if (isColorRed) Color.Red else Color.Blue
+        }
+
+    )
 
     var animatedIndicatorValue by remember { mutableStateOf(0f) }
     LaunchedEffect(key1 = allowedIndicatorValue) {
@@ -202,7 +219,7 @@ fun CustomComponent(
                 foregroundIndicator(
                     sweepAngle = sweepAngle,
                     componentSize = componentSize,
-                    indicatorColor = foregroundIndicatorColor,
+                    indicatorColor = color,
                     indicatorStrokeWidth = foregroundIndicatorStrokeWidth,
 //                    indicatorStokeCap = indicatorStrokeCap
                 )
