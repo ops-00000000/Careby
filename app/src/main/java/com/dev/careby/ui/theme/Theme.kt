@@ -17,14 +17,14 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.ViewCompat
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
+    primary = SecondPrimary,
     secondary = PurpleGrey80,
     tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Primary,
-    secondary = SecondPrimary,
+    primary = Color.White,
+    secondary = Primary,
     tertiary = Pink40
 
     /* Other default colors to override
@@ -56,7 +56,8 @@ fun CarebyTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
+            (view.context as Activity).window.navigationBarColor = colorScheme.secondary.toArgb()
+            (view.context as Activity).window.statusBarColor = Color.Black.toArgb()
             ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
         }
     }

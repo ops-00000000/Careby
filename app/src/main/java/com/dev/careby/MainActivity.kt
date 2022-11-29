@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.dev.careby.navigation.MainNavHost
@@ -30,9 +31,7 @@ class MainActivity : ComponentActivity() {
                 val systemUiController = rememberSystemUiController()
                 val darkTheme = isSystemInDarkTheme()
                 SideEffect {
-                    systemUiController.setSystemBarsColor(
-                        color = if (darkTheme) SecondPrimary else Primary
-                    )
+                    systemUiController.setStatusBarColor(color = if (darkTheme) SecondPrimary else Color.White, true)
                 }
                 Surface(
                     modifier = Modifier.fillMaxSize(),

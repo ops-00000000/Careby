@@ -46,7 +46,6 @@ var dioValue = 0
 fun WaterScreen() {
 
 
-    // https://www.youtube.com/watch?v=gQ8_Lo45Q6c
 
 
     val rep = WaterScreenRepoImpl(
@@ -122,9 +121,8 @@ rep.updateCurIndicate(1L,0)
             contentColor = SecondPrimary,
             backgroundColor = Primary,
             modifier = Modifier.constrainAs(Choosebtn) {
-                start.linkTo(Addbtn.end, margin = 0.dp)
-                end.linkTo(parent.end, margin = 28.dp)
-                bottom.linkTo(parent.bottom, margin = 184.dp)
+                end.linkTo(parent.end, margin = 25.dp)
+                bottom.linkTo(parent.bottom, margin = 76.dp)
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_baseline_add_24),
@@ -142,25 +140,26 @@ fun CustomComponent(
     maxIndicatorValue: Int,
     backgroundIndicatorColor: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f),
     backgroundIndicatorStrokeWidth: Float = 100f,
-    foregroundIndicatorColor: Color = Color.Blue,
     foregroundIndicatorStrokeWidth: Float = 100f,
 //    indicatorStrokeCap: StrokeCap = StrokeCap.Round,
     bigTextFontSize: TextUnit = MaterialTheme.typography.h3.fontSize,
     bigTextColor: Color = MaterialTheme.colors.onSurface,
     bigTextSuffix: String = "ML",
-    smallText: String = "Воды выпито:",
+    smallText: String = "Water inside:",
     smallTextFontSize: TextUnit = MaterialTheme.typography.h6.fontSize,
     smallTextColor: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.3f)
 ) {
+    val color by animateColorAsState(targetValue = Color.Red, tween(1000))
 
-
+    var foregroundIndicatorColor: Color = Color.Blue
     var allowedIndicatorValue by remember {
         mutableStateOf(maxIndicatorValue)
     }
-    allowedIndicatorValue = if (indicatorValue <= maxIndicatorValue) {
-        indicatorValue
+     if (indicatorValue <= maxIndicatorValue) {
+         allowedIndicatorValue = indicatorValue
     } else {
-        maxIndicatorValue
+         allowedIndicatorValue = maxIndicatorValue
+        foregroundIndicatorColor = color
     }
 
     var animatedIndicatorValue by remember { mutableStateOf(0f) }
