@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.dev.careby.R
+import com.dev.careby.data.DateD
 import com.dev.careby.dataBase.AppDb
 import com.dev.careby.repositories.DateRepoImpl
 import com.dev.careby.repositories.WaterScreenRepoImpl
@@ -56,22 +57,29 @@ fun WaterScreen() {
 
     val date = repD.getDate(1L)
 
-    if (date.localDate != LocalDate.now().toString()){
-rep.updateCurIndicate(1L,0)
-        repD.updateDate(1L,LocalDate.now().toString())
-    }
-
     val data = rep.getData(1L)
     var indicate = data.curIndicate
     var maxIndicate1 = data.maxIndicate
+
+    var value by remember {
+        mutableStateOf(indicate)
+    }
+
+    if (date.localDate != LocalDate.now().toString()){
+rep.updateCurIndicate(1L,0)
+        indicate = 0
+        value = 0
+        repD.updateDate(1L,LocalDate.now().toString())
+    }
+
+
+
 
 
 
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
-        var value by remember {
-            mutableStateOf(indicate)
-        }
+
 
         var maxIndicate by remember {
             mutableStateOf(maxIndicate1)
