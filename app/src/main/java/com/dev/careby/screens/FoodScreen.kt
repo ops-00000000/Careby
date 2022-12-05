@@ -20,7 +20,7 @@ fun FoodScreen() {
             .fillMaxSize()
             .background(Color.White),
         contentAlignment = Alignment.Center
-    ) {
+    ){
         Text(
             text = Constants.Screens.FOOD_BALANCE_SCREEN,
             fontSize = MaterialTheme.typography.h3.fontSize,
