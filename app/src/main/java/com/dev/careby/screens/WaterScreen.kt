@@ -108,7 +108,7 @@ rep.updateCurIndicate(1L,0)
         }
         Button(
             onClick = {
-                value += 300; indicate += 300;
+                value += 200; indicate += 200;
                 rep.updateCurIndicate(1, indicate)
             },
             modifier = Modifier
@@ -121,7 +121,7 @@ rep.updateCurIndicate(1L,0)
             shape = CircleShape,
             colors = ButtonDefaults.buttonColors(backgroundColor = Primary)
         ) {
-            Text(text = "Add 300ml")
+            Text(text = "Add 200ml")
         }
         FloatingActionButton(onClick = { openDialog = true },
             shape = CircleShape,
