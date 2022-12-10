@@ -90,4 +90,24 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
 
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.21.5-rc"
+
+    //SplashScreen
+    implementation 'androidx.core:core-splashscreen:1.0.0-rc01'
+
+    //Accompanist
+    def accompanist_version = '0.24.12-rc'
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-navigation-material:$accompanist_version"
+
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3'
+    //Datastore Preferences
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+
+    //Koin
+    def koin_version = '3.2.0'
+    implementation "io.insert-koin:koin-android:$koin_version"
 }

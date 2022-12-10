@@ -24,9 +24,4 @@ interface DateDao {
 
     fun saveDate(data: DateEntity) =
         insert(data)
-
-
-
-
-
 }

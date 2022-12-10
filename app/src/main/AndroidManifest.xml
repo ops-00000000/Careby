@@ -30,7 +30,9 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <receiver android:name=".utils.AlarmReceiver" />
+        <receiver android:name=".utils.AlarmReceiver"
+            android:directBootAware="true"
+            android:exported="false"/>
     </application>
 
 </manifest>
