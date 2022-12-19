@@ -85,7 +85,7 @@ fun DreamScreen() {
         time.value = rep.getData(lastId - 1).time
     }
     else{
-        time.value = "set Alarm"
+        time.value = "Alarm"
     }
 
 
