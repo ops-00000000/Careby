@@ -12,16 +12,23 @@ import android.os.Build
 import android.os.Vibrator
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
 import com.dev.careby.R
+import com.dev.careby.dataBase.AppDb
+import com.dev.careby.repositories.AlarmRepoImpl
+import com.dev.careby.repositories.WaterScreenRepoImpl
 import java.time.LocalTime
 
 class AlarmReceiver : BroadcastReceiver(){
 
     override fun onReceive(context: Context, intent: Intent?) {
+        val rep = AlarmRepoImpl(
+            AppDb.getInstance(context =context).AlarmDao()
+        )
         try {
             showNotification(context, "Alarm Careby", "time", "10:00")
-            TODO()
+//            TODO()
         }
         catch (e:java.lang.Exception){
             Log.d("Receive exception ", e.printStackTrace().toString())
@@ -52,7 +59,7 @@ class AlarmReceiver : BroadcastReceiver(){
         }
         val builder = NotificationCompat.Builder(context, channelId)
             .setContentTitle(title)
-            .setContentText(description)
+            .setContentText("$description   $time")
             .setSmallIcon(R.drawable.ic_baseline_access_alarm_24)
         manager.notify(1,builder.build())
     }

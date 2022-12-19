@@ -5,7 +5,7 @@ import com.dev.careby.data.DateD
 
 
 interface AlarmRepo {
-    fun updateTime(id: Long, time: String)
+    fun updateTime(id: Long, time: String, data: String)
     fun getData(id:Long): AlarmData
     fun saveTime(data: AlarmData)
 }

@@ -33,6 +33,8 @@ import java.time.LocalTime
 import android.app.TimePickerDialog
 import android.content.BroadcastReceiver
 import android.content.Context.ALARM_SERVICE
+import android.content.SharedPreferences
+import android.icu.number.Precision.integer
 import android.media.RingtoneManager
 import android.net.Uri
 import android.util.Log
@@ -47,9 +49,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.navigation.NavController
+import com.dev.careby.data.AlarmData
+import com.dev.careby.dataBase.AppDb
+import com.dev.careby.repositories.AlarmRepoImpl
 //import io.ak1.jetalarm.data.viewmodels.AlarmViewModel
 import org.koin.java.KoinJavaComponent.inject
+import java.lang.Integer.getInteger
+import java.time.LocalDate
 import java.util.*
 
 
@@ -65,22 +73,54 @@ fun DreamScreen() {
         mutableStateOf("0")
     }
 
+    val rep = AlarmRepoImpl(
+        AppDb.getInstance(context = context).AlarmDao()
+    )
 
-    if(hour < 10 && minute < 10){
-        time.value = "0$hour:0$minute"
+    var lastId = 1L
+    while (rep.getData(lastId) != null){
+        lastId++
     }
-    if(hour < 10){
-        time.value = "0$hour:$minute"
+    if (rep.getData(lastId-1) != null && rep.getData(lastId - 1).data == LocalDate.now().toString()){
+        time.value = rep.getData(lastId - 1).time
     }
-    if(minute < 10){
-        time.value = "$hour:0$minute"
-    }
-    if(hour > 10 && minute > 10){
-        time.value = "$hour:$minute"
+    else{
+        time.value = "set Alarm"
     }
 
 
 
+    var alarmData: AlarmData
+
+//    if (rep.getData(0) == null) {
+//
+//
+//        if (hour < 10 && minute < 10) {
+//            time.value = "0$hour:0$minute"
+//            alarmData = AlarmData(lastId, "0$hour:0$minute", LocalDate.now().toString())
+//            rep.saveTime(alarmData)
+//            lastId++
+//        }
+//        if (hour < 10) {
+//            time.value = "0$hour:$minute"
+//            alarmData = AlarmData(lastId, "0$hour:$minute", LocalDate.now().toString())
+//            rep.saveTime(alarmData)
+//            lastId++
+//        }
+//        if (minute < 10) {
+//            time.value = "$hour:0$minute"
+//            alarmData = AlarmData(lastId, "$hour:0$minute", LocalDate.now().toString())
+//            rep.saveTime(alarmData)
+//            lastId++
+//        }
+//        if (hour > 10 && minute > 10) {
+//            time.value = "$hour:$minute"
+//            alarmData = AlarmData(lastId, "$hour:0$minute", LocalDate.now().toString())
+//            rep.saveTime(alarmData)
+//            lastId++
+//
+//        }
+//    }
 
 
     val timeDialogState = rememberMaterialDialogState()
@@ -91,11 +131,12 @@ fun DreamScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Button(onClick = {
-            timeDialogState.show()
-        },
-        Modifier.size(223.dp,128.dp),
-        shape = CircleShape,
+        Button(
+            onClick = {
+                timeDialogState.show()
+            },
+            Modifier.size(223.dp, 128.dp),
+            shape = CircleShape,
             colors = ButtonDefaults.buttonColors(backgroundColor = Primary)
         ) {
             Text(text = time.value.toString(), fontSize = 60.sp)
@@ -140,19 +181,23 @@ fun DreamScreen() {
             val min = it.minute
             c.set(Calendar.HOUR_OF_DAY, hourOfDay)
             c.set(Calendar.MINUTE, min)
-            if(hourOfDay < 10 && min < 10){
-                time.value = "0$hourOfDay:0$min"
-            }
-            if(hourOfDay < 10){
-                time.value = "0$hourOfDay:$min"
-            }
-            if(min < 10){
-                time.value = "$hourOfDay:0$min"
-            }
-            if(hourOfDay > 10 && min > 10){
-                time.value = "$hourOfDay:$min"
-            }
+            alarmData = AlarmData(lastId, "$hourOfDay:$min", LocalDate.now().toString())
+
             time.value = "$hourOfDay:$min"
+
+            if (hourOfDay < 10 && min < 10) {
+                time.value = "0$hourOfDay:0$min"
+                alarmData = AlarmData(lastId, "0$hourOfDay:0$min", LocalDate.now().toString())
+            }
+            if (hourOfDay < 10) {
+                time.value = "0$hourOfDay:$min"
+                alarmData = AlarmData(lastId, "0$hourOfDay:$min", LocalDate.now().toString())
+            }
+            if (min < 10) {
+                time.value = "$hourOfDay:0$min"
+                alarmData = AlarmData(lastId, "$hourOfDay:0$min", LocalDate.now().toString())
+            }
+
             val intent = Intent(context, AlarmReceiver::class.java)
             val requestCode = 991
             var pendingIntent = PendingIntent.getBroadcast(contextForToast, 0, intent, 0)
@@ -167,6 +212,10 @@ fun DreamScreen() {
                 times += 1000 * 60 * 60 * 24
             }
 //            viewModel.saveNewAlarm(c.time.time, "desc", requestCode)
+            lastId++
+            rep.saveTime(alarmData)
+
+
             alarmManager.set(AlarmManager.RTC_WAKEUP, times, pendingIntent)
 
 

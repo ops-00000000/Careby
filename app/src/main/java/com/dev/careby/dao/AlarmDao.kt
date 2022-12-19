@@ -15,8 +15,8 @@ interface AlarmDao {
     @Insert
     fun insert(data:AlarmEntity)
 
-    @Query("UPDATE AlarmEntity SET time = :time WHERE id = :id")
-    fun updateTime(id: Long, time: String)
+    @Query("UPDATE AlarmEntity SET time = :time , data = :data WHERE id = :id")
+    fun updateTime(id: Long, time: String, data: String)
 
 
     fun saveTime(data: AlarmEntity) =

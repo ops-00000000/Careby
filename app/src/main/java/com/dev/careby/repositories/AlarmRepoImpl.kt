@@ -15,7 +15,7 @@ class AlarmRepoImpl (
         dao.saveTime(AlarmEntity.fromDto(data))
     }
 
-    override fun updateTime(id: Long, time: String) {
-        dao.updateTime(id,time)
+    override fun updateTime(id: Long, time: String, data: String) {
+        dao.updateTime(id,time, data)
     }
         }

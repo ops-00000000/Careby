@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.dev.careby.dao.AlarmDao
 import com.dev.careby.dao.DateDao
 import com.dev.careby.dao.WaterScreenDao
 import com.dev.careby.data.WaterScreenData
@@ -16,6 +17,7 @@ import com.dev.careby.entitys.WaterScreenEntity
 abstract class AppDb : RoomDatabase() {
     abstract fun WaterDao(): WaterScreenDao
     abstract fun DateDao(): DateDao
+    abstract fun AlarmDao(): AlarmDao
 
     companion object {
         @Volatile

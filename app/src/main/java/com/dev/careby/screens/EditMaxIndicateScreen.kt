@@ -42,7 +42,7 @@ fun EditMaxIndicateScreen(navController: NavController) {
         ConstraintLayout {
             val (text, edittext, btn) = createRefs()
             Text(
-                text = "Кажется вы не установили свой лимит воды!?",
+                text = "Hydration Calculator: Set your limit per day",
                 fontSize = MaterialTheme.typography.h5.fontSize,
                 modifier = Modifier
                     .padding(12.dp)
