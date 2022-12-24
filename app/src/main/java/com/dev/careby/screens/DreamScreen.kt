@@ -5,14 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,22 +31,24 @@ import android.icu.number.Precision.integer
 import android.media.RingtoneManager
 import android.net.Uri
 import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.navigation.NavController
 import com.dev.careby.data.AlarmData
 import com.dev.careby.dataBase.AppDb
 import com.dev.careby.repositories.AlarmRepoImpl
+import com.dev.careby.repositories.WaterScreenRepoImpl
+import com.dev.careby.ui.theme.SecondPrimary
 //import io.ak1.jetalarm.data.viewmodels.AlarmViewModel
 import org.koin.java.KoinJavaComponent.inject
 import java.lang.Integer.getInteger
@@ -69,8 +64,18 @@ fun DreamScreen() {
     val hour: Int = c.get(Calendar.HOUR_OF_DAY)
     val minute: Int = c.get(Calendar.MINUTE)
     val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
+    val intent = Intent(context, AlarmReceiver::class.java)
+    val requestCode = 991
+    var pendingIntent = PendingIntent.getBroadcast(contextForToast, requestCode, intent, 0)
     var time = remember {
         mutableStateOf("0")
+    }
+    var Alarm = remember {
+        mutableStateOf(false)
+    }
+
+    var timeAl = remember {
+        mutableStateOf(-1L)
     }
 
     val rep = AlarmRepoImpl(
@@ -87,7 +92,6 @@ fun DreamScreen() {
     else{
         time.value = "Alarm"
     }
-
 
 
     var alarmData: AlarmData
@@ -137,11 +141,25 @@ fun DreamScreen() {
             },
             Modifier.size(223.dp, 128.dp),
             shape = CircleShape,
-            colors = ButtonDefaults.buttonColors(backgroundColor = Primary)
+            colors = if (Alarm.value) ButtonDefaults.buttonColors(backgroundColor = Color.White) else ButtonDefaults.buttonColors(backgroundColor = Primary)
         ) {
             Text(text = time.value.toString(), fontSize = 60.sp)
         }
-        Text(text = "Поставить будильник")
+
+        Spacer(modifier = Modifier.padding(12.dp))
+
+        if (Alarm.value) {
+            TextButton(
+                onClick = {
+                    alarmManager.cancel(pendingIntent)
+                    Alarm.value = false
+                          },
+                Modifier.size(80.dp, 32.dp),
+                colors = ButtonDefaults.buttonColors(contentColor = Color.Black, backgroundColor = Color.White)
+            ) {
+                Text(text = "Cancel")
+            }
+        }
     }
 
 
@@ -198,9 +216,7 @@ fun DreamScreen() {
                 alarmData = AlarmData(lastId, "$hourOfDay:0$min", LocalDate.now().toString())
             }
 
-            val intent = Intent(context, AlarmReceiver::class.java)
-            val requestCode = 991
-            var pendingIntent = PendingIntent.getBroadcast(contextForToast, 0, intent, 0)
+
 
 
             var times = c.timeInMillis - c.timeInMillis % 60000
@@ -209,23 +225,33 @@ fun DreamScreen() {
                 "${System.currentTimeMillis()}  $times     difference = ${System.currentTimeMillis()}"
             )
             if (System.currentTimeMillis() > times) {
-                times += 1000 * 60 * 60 * 24
+                times += if (Calendar.AM_PM == 0) 1000 * 60 * 60 * 12 else 1000 * 60 * 60 * 24
             }
-//            viewModel.saveNewAlarm(c.time.time, "desc", requestCode)
+
             lastId++
             rep.saveTime(alarmData)
+timeAl.value = times
 
-
-            alarmManager.set(AlarmManager.RTC_WAKEUP, times, pendingIntent)
-
-
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, times, pendingIntent)
+            Alarm.value = true
             Log.e("alarmManager", "${alarmManager.nextAlarmClock}")
+
         }
     }
+
+    if (timeAl.value == System.currentTimeMillis()){
+        Alarm.value = false
+        timeAl.value = -1L
+    }
+
+
 }
+
+
 
 @Composable
 @Preview
 fun DreamScreenPreview() {
     WaterScreen()
 }
+

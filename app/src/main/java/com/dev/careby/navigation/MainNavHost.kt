@@ -15,6 +15,7 @@ sealed class Screans(val route: String) {
     object FoodS : Screans(route = Constants.Screens.FOOD_BALANCE_SCREEN)
     object EditMaxS : Screans(route = Constants.Screens.EDIT_MAX_INDICATE_SCREEN)
     object MainS : Screans(route = Constants.Screens.MAIN_SCREEN)
+    object SplashS : Screans(route = Constants.Screens.ANIMATED_SPLASH_SCREEN)
 }
 
 @Composable
@@ -45,6 +46,9 @@ fun MainNavHost(
         }
         composable(Screans.MainS.route){
             MainScreen()
+        }
+        composable(Screans.SplashS.route){
+            AnimatedSplashScreen(navController = navController)
         }
     }
 }

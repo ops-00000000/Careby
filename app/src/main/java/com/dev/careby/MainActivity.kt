@@ -15,6 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.dev.careby.navigation.MainNavHost
+import com.dev.careby.navigation.Screans
+import com.dev.careby.screens.AnimatedSplashScreen
 import com.dev.careby.screens.MainScreen
 import com.dev.careby.ui.theme.CarebyTheme
 import com.dev.careby.ui.theme.Primary
@@ -37,7 +39,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+                    val navController = rememberNavController()
+                   MainNavHost(navController = navController, startDestination = Screans.SplashS.route)
                 }
             }
         }

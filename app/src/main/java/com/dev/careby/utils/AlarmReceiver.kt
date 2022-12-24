@@ -26,9 +26,12 @@ class AlarmReceiver : BroadcastReceiver(){
         val rep = AlarmRepoImpl(
             AppDb.getInstance(context =context).AlarmDao()
         )
+        var lastId = 1L
+        while (rep.getData(lastId) != null){
+            lastId++
+        }
         try {
-            showNotification(context, "Alarm Careby", "time", "10:00")
-//            TODO()
+            showNotification(context, "Alarm Careby", "time", rep.getData(lastId-1).time)
         }
         catch (e:java.lang.Exception){
             Log.d("Receive exception ", e.printStackTrace().toString())

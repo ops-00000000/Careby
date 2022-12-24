@@ -8,5 +8,6 @@ object Constants {
         const val FOOD_BALANCE_SCREEN = "food_screen"
         const val EDIT_MAX_INDICATE_SCREEN = "editMax_screen"
         const val MAIN_SCREEN = "main_screen"
+        const val ANIMATED_SPLASH_SCREEN = "animated_splash_screen"
     }
 }

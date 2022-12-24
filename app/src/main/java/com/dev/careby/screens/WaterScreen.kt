@@ -46,8 +46,6 @@ var dioValue = 0
 fun WaterScreen() {
 
 
-
-
     val rep = WaterScreenRepoImpl(
         AppDb.getInstance(context = LocalContext.current).WaterDao()
     )
@@ -65,11 +63,11 @@ fun WaterScreen() {
         mutableStateOf(indicate)
     }
 
-    if (date.localDate != LocalDate.now().toString()){
-rep.updateCurIndicate(1L,0)
+    if (date.localDate != LocalDate.now().toString()) {
+        rep.updateCurIndicate(1L, 0)
         indicate = 0
         value = 0
-        repD.updateDate(1L,LocalDate.now().toString())
+        repD.updateDate(1L, LocalDate.now().toString())
     }
 
 
@@ -80,7 +78,6 @@ rep.updateCurIndicate(1L,0)
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
 
-
         var maxIndicate by remember {
             mutableStateOf(maxIndicate1)
         }
@@ -89,8 +86,8 @@ rep.updateCurIndicate(1L,0)
             mutableStateOf(false)
         }
 
-        if(openDialog){
-             addDialog { value += dioValue; openDialog = false; rep.updateCurIndicate(1L, value) }
+        if (openDialog) {
+            addDialog { value += dioValue; openDialog = false; rep.updateCurIndicate(1L, value) }
 
         }
 
@@ -161,21 +158,18 @@ fun CustomComponent(
     }
 
 
-
-
-
     var allowedIndicatorValue by remember {
         mutableStateOf(maxIndicatorValue)
     }
-     if (indicatorValue <= maxIndicatorValue) {
-         allowedIndicatorValue = indicatorValue
-         isColorRed = false
+    if (indicatorValue <= maxIndicatorValue) {
+        allowedIndicatorValue = indicatorValue
+        isColorRed = false
     } else {
-         allowedIndicatorValue = maxIndicatorValue
+        allowedIndicatorValue = maxIndicatorValue
         isColorRed = true
     }
 
-    val transition = updateTransition(targetState = isColorRed, label = null )
+    val transition = updateTransition(targetState = isColorRed, label = null)
 
 
     val color by transition.animateColor(
@@ -322,7 +316,7 @@ fun EmbeddedElements(
 }
 
 @Composable
-fun addDialog(onDismiss: () -> Unit){
+fun addDialog(onDismiss: () -> Unit) {
     val contextForToast = LocalContext.current.applicationContext
     var pickerValue by remember { mutableStateOf("") }
     var value = 0
@@ -338,26 +332,25 @@ fun addDialog(onDismiss: () -> Unit){
         ) {
 
 
-
-                Column(
+            Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
 
-                   OutlinedTextField(
-                       value = pickerValue,
-                       onValueChange ={ newValue -> pickerValue = newValue },
-                       label = { Text(text = "Enter Add Water") },
-                       modifier = Modifier
-                           .padding(12.dp)
-                           .fillMaxWidth(),
-                       keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                       colors = TextFieldDefaults.textFieldColors(SecondPrimary)
-                   )
+                OutlinedTextField(
+                    value = pickerValue,
+                    onValueChange = { newValue -> pickerValue = newValue },
+                    label = { Text(text = "Enter Add Water") },
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    colors = TextFieldDefaults.textFieldColors(SecondPrimary)
+                )
 
-                    val rep = WaterScreenRepoImpl(
-                        AppDb.getInstance(context = LocalContext.current).WaterDao()
-                    )
+                val rep = WaterScreenRepoImpl(
+                    AppDb.getInstance(context = LocalContext.current).WaterDao()
+                )
 
                 Button(
                     modifier = Modifier
